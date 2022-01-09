@@ -2,6 +2,8 @@ import path from "path"
 import { Configuration, EnvironmentPlugin, HotModuleReplacementPlugin } from "webpack"
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
+import 'webpack-dev-server'
+
 
 const config: Configuration = {
     entry: "./src/index.tsx",
@@ -68,7 +70,16 @@ const config: Configuration = {
         new MiniCssExtractPlugin({}),
         new HotModuleReplacementPlugin(),
         new EnvironmentPlugin(['NODE_ENV'])
-    ]
+    ],
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'public'),
+        },
+        compress: true,
+        port: 8000,
+        hot: true,
+        historyApiFallback: { index: '/' },
+    }
 }
 
 export default config
