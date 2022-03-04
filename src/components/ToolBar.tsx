@@ -7,7 +7,7 @@ import { api, UserSession } from "../api";
 
 const ToolBar: FC = () => {
     const [hasApply, setHasApply] = useState(false)
-    if ((api.session.getSession() as UserSession).user) {
+    if ((api.session.getSession() as UserSession)?.user) {
         api.users.id((api.session.getSession() as UserSession)?.user?.id, {
             "_includes": ["review_material"]
         }).exec().then((user) => {

@@ -38,7 +38,7 @@ export const AdminHeader: FC = () => {
 const AdminPage: FC = () => {
     const [_, setPath] = usePath()
     const [reviewMaterials, setReviewMaterials] = useState<ReviewMaterial[]>()
-    const signIn = (api.session.getSession() as AdminSession)?.admin.id ? true : false
+    const signIn = (api.session.getSession() as AdminSession)?.admin?.id ? true : false
     useEffect(() => {
         api.reviewMaterials.find().exec().then((data) => {
             setReviewMaterials(data)

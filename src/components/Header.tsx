@@ -43,7 +43,7 @@ export const HeaderAnchor = styled.a`
 const Header: FC = () => {
     const [login, setLogin] = useState<boolean>()
     useEffect(() => {
-        setLogin(!!(api.session.getSession() as UserSession).user)
+        setLogin(!!(api.session.getSession() as UserSession)?.user)
     }, [api.session])
     return <div className={css`
         padding-top: 24px;

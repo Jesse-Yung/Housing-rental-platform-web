@@ -22,7 +22,10 @@ const HomePage: FC = () => {
         <Container>
             <Column className={css`
                 flex-grow: 1;
-            `}>HomePage</Column>
+            `}>
+                <h3>房源列表</h3>
+                
+            </Column>
             <ToolBar />
         </Container>
     </Layout>
