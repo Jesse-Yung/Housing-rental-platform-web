@@ -3,9 +3,9 @@ import { css } from 'linaria'
 import React, { FC, useEffect, useState } from 'react'
 import Container from './Container'
 import usePath from 'react-use-path'
-import { api } from '../api'
+import { api, UserSession } from '../api'
 
-const HeaderInner = styled.div`
+export const HeaderInner = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -43,7 +43,7 @@ export const HeaderAnchor = styled.a`
 const Header: FC = () => {
     const [login, setLogin] = useState<boolean>()
     useEffect(() => {
-        setLogin(api.session.hasSession())
+        setLogin(!!(api.session.getSession() as UserSession).user)
     }, [api.session])
     return <div className={css`
         padding-top: 24px;

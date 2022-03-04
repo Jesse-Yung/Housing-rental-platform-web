@@ -2,10 +2,13 @@ import React, { FC } from 'react'
 import { css } from 'linaria'
 import { Router, Route, NotFound } from 'react-clean-router'
 import usePath from 'react-use-path'
-import HomePage from './pages/homePage'
-import SignIn from './pages/signIn'
-import SignUp from './pages/signUp'
+import HomePage from './pages/HomePage'
+import SignIn from './pages/SignIn'
+import SignUp from './pages/SignUp'
 import Layout from './components/Layout'
+import ApplyPage from './pages/ApplyPage'
+import MyApplyPage from './pages/MyApplyPage'
+import AdminPage from './pages/AdminPage'
 
 const App: FC = () => {
     const [{ path }, setPath] = usePath()
@@ -19,6 +22,15 @@ const App: FC = () => {
             </Route>
             <Route match='/sign-up'>
                 <SignUp />
+            </Route>
+            <Route match='/apply'>
+                <ApplyPage />
+            </Route>
+            <Route match='/my-apply'>
+                <MyApplyPage />
+            </Route>
+            <Route match='/admin'>
+                <AdminPage />
             </Route>
         </Router>
     </Layout>

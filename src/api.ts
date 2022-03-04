@@ -472,12 +472,12 @@ interface UserSessionInput {
 }
 
 
-interface AdminSession {
+export interface AdminSession {
     token: string
     admin: Admin
 }
 
-interface UserSession {
+export interface UserSession {
     token: string
     user: User
 }
@@ -1015,10 +1015,10 @@ class UserClient {
 
 class ReviewMaterialCreateRequest<T extends Partial<ReviewMaterial>> extends Promise<T> {
 
-    #input: ReviewMaterialCreateInput
+    #input: FormData
     #query?: ReviewMaterialSingleQuery
 
-    constructor(input: ReviewMaterialCreateInput, query?:ReviewMaterialSingleQuery){
+    constructor(input: FormData, query?:ReviewMaterialSingleQuery){
         super(() => {})
         this.#input = input
         this.#query = query
@@ -1271,13 +1271,10 @@ class ReviewMaterialListRequest<T extends Partial<ReviewMaterial>> extends Promi
 
 class ReviewMaterialClient {
 
-    create(input: ReviewMaterialCreateInput, query?: ReviewMaterialSingleQuery): ReviewMaterialCreateRequest<ReviewMaterial> {
+    create(input: FormData, query?: ReviewMaterialSingleQuery): ReviewMaterialCreateRequest<ReviewMaterial> {
         return new ReviewMaterialCreateRequest(input, query)
     }
 
-    createMany(input: ReviewMaterialCreateInput[]): ReviewMaterialCreateManyRequest<ReviewMaterial> {
-        return new ReviewMaterialCreateManyRequest(input)
-    }
 
     id(id: string, query?: ReviewMaterialSingleQuery) {
         return new ReviewMaterialIDRequest(id, query)
@@ -1287,13 +1284,6 @@ class ReviewMaterialClient {
         return new ReviewMaterialUpdateRequest(id, input, query)
     }
 
-    updateMany(input: ReviewMaterialQueryData): ReviewMaterialUpdateManyRequest<ReviewMaterial> {
-        return new ReviewMaterialUpdateManyRequest(input)
-    }
-
-    upsert(input: ReviewMaterialQueryData): ReviewMaterialUpsertRequest<ReviewMaterial> {
-        return new ReviewMaterialUpsertRequest(input)
-    }
 
     find(query?: ReviewMaterialListQuery): ReviewMaterialListRequest<ReviewMaterial> {
         return new ReviewMaterialListRequest(query)
