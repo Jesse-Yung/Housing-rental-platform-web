@@ -53,7 +53,7 @@ const AdminPage: FC = () => {
                 {signIn ? <Column>
                     审核列表
                     {reviewMaterials?.map((reviewMaterial) => {
-                        return <a>{reviewMaterial.name}</a>
+                        return <a href={`reviews_${reviewMaterial.id}`}>{reviewMaterial.name}</a>
                     })}
                 </Column>
 

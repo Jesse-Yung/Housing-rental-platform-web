@@ -65,6 +65,7 @@ export const Button = styled.button`
     font-size: 16px;
     color: white;
     box-shadow: inset 0 -0.7em 0 -0.48em rgba(0,0,0,0.08);
+    cursor: pointer;
     &:disabled {
         background-color: #c9c5d1;
         color: #a9a6af;

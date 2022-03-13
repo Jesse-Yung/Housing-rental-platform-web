@@ -8,14 +8,14 @@ enum Sex {
 }
 
 
-enum HouseLevel {
+export enum HouseLevel {
     one = 'ONE',
     two = 'TWO',
     three = 'THREE',
 }
 
 
-enum Status {
+export enum Status {
     pengding = 'PENGDING',
     processing = 'Processing',
     finished = 'FINISHED',
@@ -319,7 +319,7 @@ interface UserQueryData {
 export interface ReviewMaterial {
     id: string
     author?: User
-    author_id?: string
+    authorId?: string
     name: string
     phoneNumber: string
     idNumber: string

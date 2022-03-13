@@ -7,7 +7,7 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import Layout from './components/Layout'
 import ApplyPage from './pages/ApplyPage'
-import MyApplyPage from './pages/MyApplyPage'
+import ReviewMaterialPage from './pages/ReviewMaterial'
 import AdminPage from './pages/AdminPage'
 
 const App: FC = () => {
@@ -27,7 +27,10 @@ const App: FC = () => {
                 <ApplyPage />
             </Route>
             <Route match='/my-apply'>
-                <MyApplyPage />
+                <ReviewMaterialPage mode='inspect' />
+            </Route>
+            <Route match='/reviews_<id>'>
+                <ReviewMaterialPage mode='review' />
             </Route>
             <Route match='/admin'>
                 <AdminPage />
