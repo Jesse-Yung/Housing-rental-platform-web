@@ -26,6 +26,7 @@ const ToolBar: FC = () => {
         width: 38px;
         box-shadow: 0 1px 10px rgba(0,0,0,.2);
         background: #fff;
+        color: black;
     `}>
        <HSpace height={200} />
         <a href="">消息</a>
