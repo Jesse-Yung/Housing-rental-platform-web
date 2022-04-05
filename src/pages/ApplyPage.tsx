@@ -31,6 +31,9 @@ const ApplyPage: FC<ApplyPageProps> = ({ mode }) => {
         setValue('name', u.reviewMaterial?.name)
         setValue('idNumber', u.reviewMaterial?.idNumber)
         setValue('phoneNumber', u.reviewMaterial?.phoneNumber)
+        setValue('degree', u.reviewMaterial?.degree)
+        setValue('certification', u.reviewMaterial?.certification)
+        setValue('accountInformation', u.reviewMaterial?.accountInformation)
         setDegree(u.reviewMaterial?.degree)
         setCertification(u.reviewMaterial?.certification)
         setAccountInformation(u.reviewMaterial?.accountInformation)
@@ -54,6 +57,8 @@ const ApplyPage: FC<ApplyPageProps> = ({ mode }) => {
         <Header />
         <HSpace height={32} />
         <Container>
+            <Button onClick={()=> window.history.go(-1)}>返回</Button>
+            <HSpace height={16} />
             <Column className={css`
                 padding: 16px;
                 box-shadow: 0 4px 8px #ddd;
@@ -72,6 +77,7 @@ const ApplyPage: FC<ApplyPageProps> = ({ mode }) => {
                     display: flex;
                     flex-direction: column;
                     align-self: flex-start;
+                    align-items: flex-start;
                     font-size: 18px;
                     width: 100%;
                     input {
@@ -89,28 +95,30 @@ const ApplyPage: FC<ApplyPageProps> = ({ mode }) => {
                     <label>
                         <p>学历</p>
                         <img src={degree ? degree : upload } />
-                        <input type="file" style={{ display: 'none' }} {...register('degree', { required: "請輸入学历证明", onChange: (e) => {
-                            setDegree(URL.createObjectURL(e.target.files[0]))
+                        <input type="file" accept="image/*" style={{ display: 'none' }} {...register('degree', { required: "請輸入学历证明", onChange: (e) => {
+                            if (e.target.files.length > 0) {
+                                setDegree(URL.createObjectURL(e.target.files[0]))
+                            }
                         } })} />
                     </label>
                     <label>
                         <p>证书</p>
                         <img src={certification ? certification : upload } />
-                        <input type="file" style={{ display: 'none' }} {...register('certification', {onChange: (e) => {
+                        <input type="file" accept="image/*"  style={{ display: 'none' }} {...register('certification', {onChange: (e) => {
                             setCertification(URL.createObjectURL(e.target.files[0]))
                         } })} />
                     </label>
                     <label>
                         <p>户口信息</p>
                         <img src={accountInformation ? accountInformation : upload } />
-                        <input type="file" style={{ display: 'none' }} {...register('accountInformation', { required: "請輸入户口信息证明", onChange: (e) => {
+                        <input type="file" accept="image/*" style={{ display: 'none' }} {...register('accountInformation', { required: "請輸入户口信息证明", onChange: (e) => {
                             setAccountInformation(URL.createObjectURL(e.target.files[0]))
                         } })} />
                     </label>
-                    <Button type="submit" style={{ alignSelf: 'center' }}>提交申请</Button>
+                    <Button type="submit" style={{ alignSelf: 'center' }}>{mode === 'create' ? '提交' : '修改'}申请</Button>
                 </form>
-
             </Column>
+            <HSpace height={64} />
         </Container>
     </Layout>
 }

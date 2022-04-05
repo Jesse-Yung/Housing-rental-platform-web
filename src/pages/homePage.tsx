@@ -24,7 +24,6 @@ const HomePage: FC = () => {
                 flex-grow: 1;
             `}>
                 <h3>房源列表</h3>
-                
             </Column>
             <ToolBar />
         </Container>

@@ -22,6 +22,7 @@
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.27.1",
     "react-loading": "^2.0.3",
+    "react-modal-image": "^2.5.0",
     "react-navigation-view": "^0.3.8",
     "react-pure-tap": "^0.2.2",
     "react-sheet-presentation": "^0.1.9",

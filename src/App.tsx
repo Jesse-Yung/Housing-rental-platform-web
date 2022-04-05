@@ -32,6 +32,9 @@ const App: FC = () => {
             <Route match='/my-apply'>
                 <ReviewMaterialPage mode='inspect' />
             </Route>
+            <Route match='/reviews-apply_<id>'>
+                <ReviewMaterialPage mode='review' />
+            </Route>
             <Route match='/reviews_<id>'>
                 <ReviewMaterialPage mode='review' />
             </Route>

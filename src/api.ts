@@ -242,7 +242,7 @@ export interface User {
     username?: string
     phoneNumber: string
     sex?: Sex
-    houseLevels?: HouseLevel
+    houseLevel?: HouseLevel
     reviewMaterial?: ReviewMaterial
     createdAt: string
     updatedAt: string
@@ -262,7 +262,7 @@ export interface UserUpdateInput {
     phoneNumber?: string
     password?: string
     sex?: Sex | null
-    houseLevels?: HouseLevel | null
+    houseLevel?: HouseLevel | null
     reviewMaterial?: ReviewMaterialUpdateInput | null
 }
 
