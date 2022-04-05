@@ -17,7 +17,7 @@ const SignIn: FC = () => {
             password: data.password
         }).exec().then(() => {
             setPath('/')
-        })
+        }).catch(() => setError('password', {message: "账号或密码错误"}))
     }
     return <Layout>
         <Header />

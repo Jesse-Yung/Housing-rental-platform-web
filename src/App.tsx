@@ -24,7 +24,10 @@ const App: FC = () => {
                 <SignUp />
             </Route>
             <Route match='/apply'>
-                <ApplyPage />
+                <ApplyPage mode='create' />
+            </Route>
+            <Route match='/apply-update'>
+                <ApplyPage mode='update' />
             </Route>
             <Route match='/my-apply'>
                 <ReviewMaterialPage mode='inspect' />

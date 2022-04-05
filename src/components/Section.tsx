@@ -1,5 +1,5 @@
 import { styled } from 'linaria/react'
-import { light, dark, lightBorder, darkBorder } from '../styles/theme'
+import { light, dark, lightBorder, darkBorder } from '../share/theme'
 
 const Section = styled.div`
     display: flex;

@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 import {
     contentFontStack,
     dark, darkBackground, darkContent, light, lightBackground, lightContent
-} from '../styles/theme'
+} from '../share/theme'
 
 const Layout: FC = ({ children }) => {
     return <div className={css`

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import usePath from 'react-use-path'
 import { css } from 'linaria'
 import Container from '../components/Container'
@@ -7,14 +7,34 @@ import HSpace from '../components/HSpace'
 import Layout from '../components/Layout'
 import Column from '../components/Column'
 import { useForm } from 'react-hook-form'
-import { api, User, UserSession } from '../api'
+import { api, ReviewMaterial, UserSession } from '../api'
+import Button from '../components/Button'
+import { useQuery } from '../hooks/useQueryMutation'
+import upload from '../share/upload_image.png'
 
 
+interface ApplyPageProps {
+    mode: 'create' | 'update'
+}
 
-
-const ApplyPage: FC = () => {
+const ApplyPage: FC<ApplyPageProps> = ({ mode }) => {
     const [_, setPath] = usePath()
-    const { register, handleSubmit, formState: { errors }, setError } = useForm()
+    const [] = useState()
+    const { register, handleSubmit, formState: { errors }, setError, setValue } = useForm()
+    const [degree, setDegree] = useState<String>()
+    const [certification, setCertification] = useState<String>()
+    const [accountInformation, setAccountInformation] = useState<String>()
+    const {} = useQuery(() =>  api.users.id((api.session.getSession() as UserSession).user.id, {
+        "_includes": ["review_material"]
+    }).exec(), { disabled: mode === 'create',
+    onData: (u) => {
+        setValue('name', u.reviewMaterial?.name)
+        setValue('idNumber', u.reviewMaterial?.idNumber)
+        setValue('phoneNumber', u.reviewMaterial?.phoneNumber)
+        setDegree(u.reviewMaterial?.degree)
+        setCertification(u.reviewMaterial?.certification)
+        setAccountInformation(u.reviewMaterial?.accountInformation)
+    } })
     const onSubmit = async (data: any) => {
         const input = new FormData()
         input.append("name", data.name)
@@ -52,6 +72,13 @@ const ApplyPage: FC = () => {
                     display: flex;
                     flex-direction: column;
                     align-self: flex-start;
+                    font-size: 18px;
+                    width: 100%;
+                    input {
+                        margin: 10px 0;
+                        width: 300px;
+                        min-height: 24px;
+                    }
                 `}>
                     <label>姓名</label>
                     <input type="text" {...register('name', { required: "請輸入姓名" })} />
@@ -59,13 +86,28 @@ const ApplyPage: FC = () => {
                     <input type="text" {...register('idNumber', { required: "請輸入身份证号码" })} />
                     <label>手机号码</label>
                     <input type="text" {...register('phoneNumber', { required: "請輸入手机号码" })} />
-                    <label>学历</label>
-                    <input type="file" {...register('degree', { required: "請輸入学历证明" })} />
-                    <label>证书</label>
-                    <input type="file" {...register('certification')} />
-                    <label>户口信息</label>
-                    <input type="file" {...register('accountInformation', { required: "請輸入户口信息证明" })} />
-                    <button type="submit">提交申请</button>
+                    <label>
+                        <p>学历</p>
+                        <img src={degree ? degree : upload } />
+                        <input type="file" style={{ display: 'none' }} {...register('degree', { required: "請輸入学历证明", onChange: (e) => {
+                            setDegree(URL.createObjectURL(e.target.files[0]))
+                        } })} />
+                    </label>
+                    <label>
+                        <p>证书</p>
+                        <img src={certification ? certification : upload } />
+                        <input type="file" style={{ display: 'none' }} {...register('certification', {onChange: (e) => {
+                            setCertification(URL.createObjectURL(e.target.files[0]))
+                        } })} />
+                    </label>
+                    <label>
+                        <p>户口信息</p>
+                        <img src={accountInformation ? accountInformation : upload } />
+                        <input type="file" style={{ display: 'none' }} {...register('accountInformation', { required: "請輸入户口信息证明", onChange: (e) => {
+                            setAccountInformation(URL.createObjectURL(e.target.files[0]))
+                        } })} />
+                    </label>
+                    <Button type="submit" style={{ alignSelf: 'center' }}>提交申请</Button>
                 </form>
 
             </Column>

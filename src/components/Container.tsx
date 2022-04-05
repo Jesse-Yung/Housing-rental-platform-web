@@ -1,5 +1,5 @@
 import { styled } from 'linaria/react'
-import { phone, tablet, desktop, desktopHD } from '../styles/theme'
+import { phone, tablet, desktop, desktopHD } from '../share/theme'
 
 
 

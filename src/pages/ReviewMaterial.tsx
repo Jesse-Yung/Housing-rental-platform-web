@@ -8,6 +8,7 @@ import Column from '../components/Column'
 import { api, HouseLevel, ReviewMaterial, Status, User, UserSession } from '../api'
 import { Button } from '../components/Form'
 import Row from '../components/Row'
+import usePath from 'react-use-path'
 
 
 interface ReviewMaterialProps {
@@ -18,6 +19,7 @@ interface ReviewMaterialProps {
 const ReviewMaterialPage: FC<ReviewMaterialProps> = ({ mode, id }) => {
     const [reviewMaterial, setReviewMaterial] = useState<ReviewMaterial>()
     const [user, setUser] = useState<User>()
+    const [_, setPath] = usePath()
     const [level, setLevel] = useState<HouseLevel | undefined>()
     useEffect(() => {
         if (id) {
@@ -96,7 +98,7 @@ const ReviewMaterialPage: FC<ReviewMaterialProps> = ({ mode, id }) => {
                     <img src={reviewMaterial?.certification} alt="" />
                     <label>户口信息</label>
                     <img src={reviewMaterial?.accountInformation} alt="" />
-                    {mode === 'inspect' ? <Button>修改</Button> :
+                    {mode === 'inspect' ? <Button onClick={() => setPath('/apply-update')}>修改</Button> :
                     reviewMaterial?.status === Status.finished ? null :
                     <Column className={css`
                         align-self: center;

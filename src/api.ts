@@ -1057,11 +1057,6 @@ class ReviewMaterialUpdateRequest<T extends Partial<ReviewMaterial>> extends Pro
         this.#query = query
     }
 
-    pick(picks: ReviewMaterialResultPick[]): ReviewMaterialUpdateRequest<Pick<T, typeof picks[number]>> {
-        this.#query = {...this.#query, _pick: picks}
-        return this
-    }
-
     omit(omits: ReviewMaterialResultPick[]): ReviewMaterialUpdateRequest<Omit<T, typeof omits[number]>> {
         this.#query = {...this.#query, _omit: omits}
         return this
