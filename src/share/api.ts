@@ -79,11 +79,11 @@ export async function createUser(input: UserCreateInput): Promise<UserCreateInpu
     return await _post<UserCreateInput>(`/users`, input)
 }
 
-export async function updateUser(id: string, input: UserUpdateInput): Promise<any> {
-    return await _patch<any>(`/users/${id}`, input)
+export async function updateUser(id: string, input: UserUpdateInput): Promise<User> {
+    return await _patch<User>(`/users/${id}`, input)
 }
 
-export async function deleteUser(id: number): Promise<void> {
+export async function deleteUser(id: string): Promise<void> {
     return await _delete(`/users/${id}`)
 }
 

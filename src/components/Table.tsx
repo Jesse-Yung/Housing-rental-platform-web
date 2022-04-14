@@ -4,12 +4,13 @@ import { styled } from 'linaria/react'
 export const TableContainer = styled.div`
    display: flex;
    position: relative;
+   align-self: center;
    flex-direction: column;
    align-items: center;
+   color: black;
    padding: 16px;
    box-shadow: 0 4px 8px #ddd;
    border-radius: 2px;
-   min-width: 800px;
    background-color: #FFFFFF;
 `
 

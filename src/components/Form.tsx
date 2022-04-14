@@ -26,6 +26,11 @@ export const FormLabel = styled.label`
     padding-left: 4px;
 `
 
+export const Label = styled.label`
+    margin-right: 16px;
+    cursor: pointer;
+`
+
 export const FormInput = styled.input`
     height: 40px;
     font-size: 16px;

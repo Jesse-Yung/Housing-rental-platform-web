@@ -41,7 +41,6 @@ export const HeaderAnchor = styled.a`
 
 const Header: FC = () => {
     const [session, setSession] = useSession()
-
     return <div className={css`
         padding-top: 24px;
         padding-bottom: 24px;

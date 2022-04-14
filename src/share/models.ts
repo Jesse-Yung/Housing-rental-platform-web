@@ -47,6 +47,8 @@ export interface AdminUpdateInput {
 export interface User {
     id: string
     username?: string
+    name?: string
+    email?: string
     phoneNumber: string
     sex?: Sex
     houseLevel?: HouseLevel
@@ -58,6 +60,8 @@ export interface User {
 export interface UserCreateInput {
     username?: string
     phoneNumber: string
+    name?: string
+    email?: string
     password: string
     sex?: Sex
     houseLevels?: HouseLevel

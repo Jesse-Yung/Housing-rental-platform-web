@@ -76,8 +76,7 @@ const config: Configuration = {
             directory: path.join(__dirname, 'public'),
         },
         compress: true,
-        port: 8000,
-        hot: true,
+        port: 9000,
         historyApiFallback: { index: '/' },
     }
 }

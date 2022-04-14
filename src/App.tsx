@@ -9,6 +9,9 @@ import HomePage from './pages/homePage'
 import SignIn from './pages/signIn'
 import SignUp from './pages/signUp'
 import useSession from './hooks/useSession'
+import UsersPage from './pages/UsersPage'
+import UserPage from './pages/UserPage'
+import UserForm from './pages/UserForm'
 
 const App: FC = () => {
     const [{ path }, setPath] = usePath()
@@ -42,6 +45,15 @@ const App: FC = () => {
             </Route>
             <Route match='/admin'>
                 <AdminPage />
+            </Route>
+            <Route match='/users'>
+                <UsersPage />
+            </Route>
+            <Route match='/users_<id>'>
+                <UserPage />
+            </Route>
+            <Route match='/users-update_<id>'>
+                <UserForm />
             </Route>
         </Router>
     </Layout>

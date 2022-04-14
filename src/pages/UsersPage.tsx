@@ -11,19 +11,18 @@ import { Table, Tbody, Thead } from '../components/Table'
 import { OpButton } from '../components/Button'
 import { format } from 'date-fns'
 import useSession from '../hooks/useSession'
-import {  ReviewMaterial, Status } from '../share/models'
-import { getReviewMaterials } from '../share/api'
+import {  HouseLevel, ReviewMaterial, Sex, Status } from '../share/models'
+import { getReviewMaterials, getUsers } from '../share/api'
 import { useQuery } from '../hooks/useQueryMutation'
 import AdminHeader from '../components/AdminHeader'
 
 
 
-
-const AdminPage: FC = () => {
+const UsersPage: FC = () => {
     const [_, setPath] = usePath()
     const [session] = useSession()
-    const { data } = useQuery(() => getReviewMaterials())
-    console.log(session)
+    const { data } = useQuery(() => getUsers())
+    console.log(data)
 
     return <Layout>
         <AdminHeader />
@@ -35,29 +34,30 @@ const AdminPage: FC = () => {
                 justify-content: space-between;
                 margin: 0 16px;
             `}>
-                <h2>审核列表</h2>
+                <h2>用户列表</h2>
             </Row>
                 <Table>
                     <Thead>
                         <tr>
                             <th>姓名</th>
-                            <th>发起时间</th>
-                            <th>完成时间</th>
-                            <th>状态</th>
+                            <th>性别</th>
+                            <th>电话号码</th>
+                            <th>等级</th>
                             <th>操作</th>
                         </tr>
                     </Thead>
                     <Tbody>
-                        {data?.map((row: ReviewMaterial) => {
+                        {data?.map((row) => {
                             return <tr key={row.id} onClick={() => {}}>
                                 <td>{row.name}</td>
-                                <td>{format(new Date(row.createdAt), 'Y年M月d日hh:ss')}</td>
-                                <td>{row.status === Status.finished ? format(new Date(row.updatedAt), 'Y年M月d日hh:ss') : ''}</td>
-                                <td>{row.status === Status.pengding ? "等待审核中" : row.status === Status.processing ? "审核中" : "审核完成"}</td>
+                                <td>{row.sex === Sex.male ? "男" : "女"}</td>
+                                <td>{row.phoneNumber}</td>
+                                <td>{row.houseLevel ? row.houseLevel === HouseLevel.one ? "一级" : row.houseLevel === HouseLevel.two ? "二级" : "三级" : "无"}</td>
                                 <td>
                                     <Row>
-                                        <OpButton hidden={row.status === Status.finished} color="green" action={() => setPath(`/reviews_${row.id}`)}>审核</OpButton>
-                                        <OpButton color="green" action={() => setPath(`/reviews-apply_${row.id}`)}>查看</OpButton>
+                                        <OpButton color="green" action={() => setPath(`/users_${row.id}`)}>查看</OpButton>
+                                        <OpButton color="green" action={() => setPath(`/users-update_${row.id}`)}>修改</OpButton>
+                                        <OpButton color="green" action={() => setPath(`/reviews_${row.id}`)}>删除</OpButton>
                                     </Row>
                                 </td>
                             </tr>
@@ -70,4 +70,4 @@ const AdminPage: FC = () => {
     </Layout>
 }
 
-export default AdminPage
+export default UsersPage
