@@ -1,17 +1,19 @@
 import React, { FC } from 'react'
-import { css } from 'linaria'
-import { Router, Route, NotFound } from 'react-clean-router'
+import { Router, Route } from 'react-clean-router'
 import usePath from 'react-use-path'
-import HomePage from './pages/HomePage'
-import SignIn from './pages/SignIn'
-import SignUp from './pages/SignUp'
 import Layout from './components/Layout'
 import ApplyPage from './pages/ApplyPage'
 import ReviewMaterialPage from './pages/ReviewMaterial'
 import AdminPage from './pages/AdminPage'
+import HomePage from './pages/homePage'
+import SignIn from './pages/signIn'
+import SignUp from './pages/signUp'
+import useSession from './hooks/useSession'
 
 const App: FC = () => {
     const [{ path }, setPath] = usePath()
+    const [session] = useSession()
+    console.log(session)
     return <Layout>
         <Router path={path}>
             <Route match = ''>

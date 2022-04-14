@@ -1,5 +1,4 @@
 import React, { FC } from 'react'
-import { api } from "../api"
 import { useForm, SubmitHandler } from "react-hook-form"
 import Layout from '../components/Layout'
 import Header from '../components/Header'
@@ -7,16 +6,17 @@ import Column from '../components/Column'
 import { Button, Error, Form, FormInput, FormLabel, FormRow } from '../components/Form'
 import HSpace from '../components/HSpace'
 import usePath from 'react-use-path'
+import { createUser } from '../share/api'
 
 
 const SignUp: FC = () => {
     const [_, setPath] = usePath()
     const { register, handleSubmit, formState: { errors }, setValue } = useForm()
     const onSubmit = (data: any) => {
-        api.users.create({
+        createUser({
             phoneNumber: data.phoneNumber,
             password: data.password
-        }).exec().then(() => {
+        }).then(() => {
             alert("注册成功，将跳转到登录页面")
             setPath("/sign-in")
         }).catch(() => {

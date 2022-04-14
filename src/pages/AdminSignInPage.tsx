@@ -1,20 +1,26 @@
 import React, { FC } from 'react'
-import { api } from "../api"
 import { useForm } from "react-hook-form"
 import Column from '../components/Column'
 import { Form, FormInput, FormLabel, FormRow, Button, Error } from '../components/Form'
 import usePath from 'react-use-path'
+import { adminSignIn } from '../share/api'
+import useSession from '../hooks/useSession'
 
 const AdminSignPage: FC = () => {
     const [_, setPath] = usePath()
+    const [__, setSession] = useSession()
     const { register, handleSubmit, formState: { errors }, setError } = useForm()
-    const onSubmit = (data: any) => {
-        api.admins.signIn({
+    const onSubmit = async(data: any) => {
+        const result = await adminSignIn({
             username: data.username,
             password: data.password
-        }).exec().then(() => {
-            setPath('/admin')
         })
+        if (result) {
+            setSession(result)
+            setPath('/admin')
+        } else {
+            setError('username', {message: '用戶名不存在或密碼錯誤'})
+        }
     }
     return <Column>
         <Form onSubmit={handleSubmit(onSubmit)}>

@@ -2,8 +2,7 @@ import { styled } from 'linaria/react'
 import { css } from 'linaria'
 import React, { FC, useEffect, useState } from 'react'
 import Container from './Container'
-import usePath from 'react-use-path'
-import { api, UserSession } from '../api'
+import useSession from '../hooks/useSession'
 
 export const HeaderInner = styled.div`
     display: flex;
@@ -41,10 +40,8 @@ export const HeaderAnchor = styled.a`
 `
 
 const Header: FC = () => {
-    const [login, setLogin] = useState<boolean>()
-    useEffect(() => {
-        setLogin(!!(api.session.getSession() as UserSession)?.user)
-    }, [api.session])
+    const [session, setSession] = useSession()
+
     return <div className={css`
         padding-top: 24px;
         padding-bottom: 24px;
@@ -70,7 +67,7 @@ const Header: FC = () => {
                             法律法规
                         </HeaderAnchor>
                     </HeaderLink>
-                    {login ?
+                    {session ?
                     <HeaderLink>
                         <HeaderAnchor href="personal">
                             个人中心
@@ -81,10 +78,10 @@ const Header: FC = () => {
                             注册
                         </HeaderAnchor>
                     </HeaderLink>}
-                    {login ?
+                    {session ?
                     <HeaderLink>
                         <HeaderAnchor href="/" onClick={() => {
-                            api.signOut()
+                            setSession(undefined)
                             window.location.reload()
                         }}>
                             登出

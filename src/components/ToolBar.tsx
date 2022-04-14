@@ -2,15 +2,15 @@ import React,{ FC, useState } from "react";
 import { css } from "linaria";
 import Column from "./Column";
 import HSpace from "./HSpace";
-import { api, UserSession } from "../api";
+import useSession from "../hooks/useSession";
+import { getUser } from "../share/api";
 
 
 const ToolBar: FC = () => {
     const [hasApply, setHasApply] = useState(false)
-    if ((api.session.getSession() as UserSession)?.user) {
-        api.users.id((api.session.getSession() as UserSession)?.user?.id, {
-            "_includes": ["review_material"]
-        }).exec().then((user) => {
+    const [session] = useSession()
+    if (session?.user) {
+        getUser(session.user!.id, '_includes[0]=review_material').then((user) => {
             if (user.reviewMaterial) {
                 setHasApply(true)
             }

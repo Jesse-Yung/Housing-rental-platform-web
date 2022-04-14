@@ -7,10 +7,11 @@ import HSpace from '../components/HSpace'
 import Layout from '../components/Layout'
 import Column from '../components/Column'
 import { useForm } from 'react-hook-form'
-import { api, ReviewMaterial, UserSession } from '../api'
 import Button from '../components/Button'
 import { useQuery } from '../hooks/useQueryMutation'
 import upload from '../share/upload_image.png'
+import { createReviewMaterial, getUser } from '../share/api'
+import useSession from '../hooks/useSession'
 
 
 interface ApplyPageProps {
@@ -19,24 +20,22 @@ interface ApplyPageProps {
 
 const ApplyPage: FC<ApplyPageProps> = ({ mode }) => {
     const [_, setPath] = usePath()
-    const [] = useState()
+    const [session] = useSession()
     const { register, handleSubmit, formState: { errors }, setError, setValue } = useForm()
     const [degree, setDegree] = useState<String>()
     const [certification, setCertification] = useState<String>()
     const [accountInformation, setAccountInformation] = useState<String>()
-    const {} = useQuery(() =>  api.users.id((api.session.getSession() as UserSession).user.id, {
-        "_includes": ["review_material"]
-    }).exec(), { disabled: mode === 'create',
-    onData: (u) => {
-        setValue('name', u.reviewMaterial?.name)
-        setValue('idNumber', u.reviewMaterial?.idNumber)
-        setValue('phoneNumber', u.reviewMaterial?.phoneNumber)
-        setValue('degree', u.reviewMaterial?.degree)
-        setValue('certification', u.reviewMaterial?.certification)
-        setValue('accountInformation', u.reviewMaterial?.accountInformation)
-        setDegree(u.reviewMaterial?.degree)
-        setCertification(u.reviewMaterial?.certification)
-        setAccountInformation(u.reviewMaterial?.accountInformation)
+    useQuery(() => getUser(session?.user!.id!), { disabled: mode === 'create',
+        onData: (u) => {
+            setValue('name', u.reviewMaterial?.name)
+            setValue('idNumber', u.reviewMaterial?.idNumber)
+            setValue('phoneNumber', u.reviewMaterial?.phoneNumber)
+            setValue('degree', u.reviewMaterial?.degree)
+            setValue('certification', u.reviewMaterial?.certification)
+            setValue('accountInformation', u.reviewMaterial?.accountInformation)
+            setDegree(u.reviewMaterial?.degree)
+            setCertification(u.reviewMaterial?.certification)
+            setAccountInformation(u.reviewMaterial?.accountInformation)
     } })
     const onSubmit = async (data: any) => {
         const input = new FormData()
@@ -46,7 +45,7 @@ const ApplyPage: FC<ApplyPageProps> = ({ mode }) => {
         input.append("degree", data.degree[0])
         input.append("certification", data.certification[0])
         input.append("accountInformation", data.accountInformation[0])
-        await api.reviewMaterials.create(input).exec().then(() => {
+        await createReviewMaterial(data).then(() => {
             alert("申请提交成功")
             window.location.href = "my-apply"
         }).catch(() => {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Session } from '../share/models'
+import { Session} from '../share/models'
 
 const sessionKey = '_production_app_session'
 
@@ -51,6 +51,6 @@ export function getSessionToken(): String | undefined {
     if (!currentSession) {
         return undefined
     } else {
-        return (currentSession as Session).usertoken
+        return (currentSession as Session).token
     }
 }

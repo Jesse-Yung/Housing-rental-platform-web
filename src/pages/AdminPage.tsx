@@ -6,15 +6,19 @@ import { HeaderAnchor, HeaderInner, HeaderLink, HeaderLinks } from '../component
 import HSpace from '../components/HSpace'
 import Layout from '../components/Layout'
 import Column from '../components/Column'
-import { AdminSession, api, ReviewMaterial, Status } from '../api'
 import AdminSignPage from './AdminSignInPage'
 import Row from '../components/Row'
 import { Table, Tbody, Thead } from '../components/Table'
 import { OpButton } from '../components/Button'
 import { format } from 'date-fns'
+import useSession from '../hooks/useSession'
+import {  ReviewMaterial, Status } from '../share/models'
+import { getReviewMaterials } from '../share/api'
+import { useQuery } from '../hooks/useQueryMutation'
 
 
 export const AdminHeader: FC = () => {
+    const [_, setSession] = useSession()
     return  <div className={css`
         padding-top: 24px;
         padding-bottom: 24px;
@@ -25,8 +29,23 @@ export const AdminHeader: FC = () => {
                 <HeaderAnchor>青租管理平台</HeaderAnchor>
                 <HeaderLinks>
                     <HeaderLink>
+                        <HeaderAnchor href="/">
+                            用户管理
+                        </HeaderAnchor>
+                    </HeaderLink>
+                    <HeaderLink>
+                        <HeaderAnchor href="/admin_hourse">
+                            房源管理
+                        </HeaderAnchor>
+                    </HeaderLink>
+                    <HeaderLink>
+                        <HeaderAnchor href="/admin">
+                            审核管理
+                        </HeaderAnchor>
+                    </HeaderLink>
+                    <HeaderLink>
                         <HeaderAnchor href="/admin" onClick={() => {
-                            api.signOut()
+                            setSession(undefined)
                             window.location.reload()
                         }}>
                             登出
@@ -41,19 +60,15 @@ export const AdminHeader: FC = () => {
 
 const AdminPage: FC = () => {
     const [_, setPath] = usePath()
-    const [reviewMaterials, setReviewMaterials] = useState<ReviewMaterial[]>()
-    const signIn = (api.session.getSession() as AdminSession)?.admin?.id ? true : false
-    useEffect(() => {
-        api.reviewMaterials.find().exec().then((data) => {
-            setReviewMaterials(data)
-        })
-    }, [])
+    const [session] = useSession()
+    const { data } = useQuery(() => getReviewMaterials())
+    console.log(session)
 
     return <Layout>
         <AdminHeader />
         <HSpace height={32} />
         <Container>
-                {signIn ? <Column>
+                {session ? <Column>
             <Row className={css`
                 align-self: stretch;
                 justify-content: space-between;
@@ -72,7 +87,7 @@ const AdminPage: FC = () => {
                         </tr>
                     </Thead>
                     <Tbody>
-                        {reviewMaterials?.map((row: ReviewMaterial) => {
+                        {data?.map((row: ReviewMaterial) => {
                             return <tr key={row.id} onClick={() => {}}>
                                 <td>{row.name}</td>
                                 <td>{format(new Date(row.createdAt), 'Y年M月d日hh:ss')}</td>

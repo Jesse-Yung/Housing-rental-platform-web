@@ -1,5 +1,4 @@
 import React, { FC } from 'react'
-import { api } from "../api"
 import { useForm } from "react-hook-form"
 import Layout from '../components/Layout'
 import Header from '../components/Header'
@@ -7,17 +6,24 @@ import HSpace from '../components/HSpace'
 import Column from '../components/Column'
 import { Form, FormInput, FormLabel, FormRow, Button, Error } from '../components/Form'
 import usePath from 'react-use-path'
+import { userSignIn } from '../share/api'
+import useSession from '../hooks/useSession'
 
 const SignIn: FC = () => {
     const [_, setPath] = usePath()
+    const [__, setSession] = useSession()
     const { register, handleSubmit, formState: { errors }, setError } = useForm()
-    const onSubmit = (data: any) => {
-        api.users.signIn({
+    const onSubmit = async(data: any) => {
+        const result = await userSignIn({
             phoneNumber: data.phoneNumber,
             password: data.password
-        }).exec().then(() => {
+        })
+        if (result) {
+            setSession(result)
             setPath('/')
-        }).catch(() => setError('password', {message: "账号或密码错误"}))
+        } else {
+            setError('phoneNumber', {message: '用戶名不存在或密碼錯誤'})
+        }
     }
     return <Layout>
         <Header />

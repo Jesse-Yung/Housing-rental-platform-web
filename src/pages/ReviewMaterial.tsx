@@ -5,12 +5,14 @@ import Header from '../components/Header'
 import HSpace from '../components/HSpace'
 import Layout from '../components/Layout'
 import Column from '../components/Column'
-import { api, HouseLevel, ReviewMaterial, Status, User, UserSession } from '../api'
 import Button from '../components/Button'
 import Row from '../components/Row'
 import usePath from 'react-use-path'
 import WSpace from '../components/WSpace'
 import ModalImage from "react-modal-image"
+import { HouseLevel, ReviewMaterial, Status, User } from '../share/models'
+import { getReviewMaterial, getUser, updateReviewMaterial, updateUser } from '../share/api'
+import useSession from '../hooks/useSession'
 
 
 interface ReviewMaterialProps {
@@ -19,28 +21,25 @@ interface ReviewMaterialProps {
 }
 
 const ReviewMaterialPage: FC<ReviewMaterialProps> = ({ mode, id }) => {
+    const [session] = useSession()
     const [reviewMaterial, setReviewMaterial] = useState<ReviewMaterial>()
     const [user, setUser] = useState<User>()
     const [_, setPath] = usePath()
     const [level, setLevel] = useState<HouseLevel | undefined>()
     useEffect(() => {
         if (id) {
-            api.reviewMaterials.id(id).exec().then((r) => {
+            getReviewMaterial(id).then((r) => {
                 setReviewMaterial(r)
-                api.users.id(r.authorId!, {
-                    "_includes": ["house_level"]
-                }).exec().then((user) => {
+                getUser(r.authorId!, "_includes[0]=house_level").then((user) => {
                     setUser(user)
                 })
             })
 
             if (reviewMaterial?.status === Status.pengding) {
-                api.reviewMaterials.update(id!, { status: Status.processing }).exec()
+                updateReviewMaterial(id!, { status: Status.processing })
             }
         } else {
-            api.users.id((api.session.getSession() as UserSession).user.id, {
-                "_includes": ["review_material"]
-            }).exec().then((user) => {
+           getUser(session?.user!.id!, '_includes[0]=review_material').then((user) => {
                 if (user.reviewMaterial) {
                     setReviewMaterial(user.reviewMaterial)
                 }
@@ -137,11 +136,11 @@ const ReviewMaterialPage: FC<ReviewMaterialProps> = ({ mode, id }) => {
                         </select>
                         <HSpace height={32} />
                         <Row style={{ alignSelf: 'stretch' }}>
-                            <Button onClick={() => {
+                            <Button onClick={async() => {
                                 if (level) {
                                     if(window.confirm("确认通过审核吗？")) {
-                                        api.reviewMaterials.update(id!, { status: Status.finished }).exec()
-                                        api.users.update(reviewMaterial?.authorId!, { houseLevel: level}).exec().then((u) => {
+                                        await updateReviewMaterial(id!, { status: Status.finished })
+                                        updateUser(reviewMaterial?.authorId!, { houseLevel: level}).then((u) => {
                                             console.log(u)
                                             window.location.reload()
                                         })
@@ -149,10 +148,10 @@ const ReviewMaterialPage: FC<ReviewMaterialProps> = ({ mode, id }) => {
                                 }
                             }}>通过审核</Button>
                             <WSpace width={32} />
-                            <Button onClick={() => {
+                            <Button onClick={async() => {
                                 if(window.confirm("确认拒绝通过审核吗？")) {
-                                    api.reviewMaterials.update(id!, { status: Status.finished }).exec()
-                                    api.users.update(reviewMaterial?.authorId!, { houseLevel: null}).exec().then(() => {
+                                    await updateReviewMaterial(id!, { status: Status.finished })
+                                    updateUser(reviewMaterial?.authorId!, { houseLevel: null}).then(() => {
                                         window.location.reload()
                                     })
                                 }
