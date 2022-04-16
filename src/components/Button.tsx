@@ -73,7 +73,7 @@ export const OpButton: FC<OpButtonProps> = ({ children, color, action, disable, 
     `} style={{ backgroundColor: color }} onClick={(e) => {
         e.stopPropagation()
         action()
-    }} disabled={disable} hidden={hidden}>{children}</button>
+    }} disabled={disable} type='button' hidden={hidden}>{children}</button>
 }
 
 export default Button

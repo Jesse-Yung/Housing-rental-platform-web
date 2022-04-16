@@ -5,13 +5,15 @@ import Layout from './components/Layout'
 import ApplyPage from './pages/ApplyPage'
 import ReviewMaterialPage from './pages/ReviewMaterial'
 import AdminPage from './pages/AdminPage'
-import HomePage from './pages/homePage'
-import SignIn from './pages/signIn'
-import SignUp from './pages/signUp'
 import useSession from './hooks/useSession'
 import UsersPage from './pages/UsersPage'
 import UserPage from './pages/UserPage'
 import UserForm from './pages/UserForm'
+import HousesPage from './pages/HousesPage'
+import HomePage from './pages/HomePage'
+import SignIn from './pages/SignIn'
+import SignUp from './pages/SignUp'
+import HouseForm from './pages/HouseForm'
 
 const App: FC = () => {
     const [{ path }, setPath] = usePath()
@@ -54,6 +56,15 @@ const App: FC = () => {
             </Route>
             <Route match='/users-update_<id>'>
                 <UserForm />
+            </Route>
+            <Route match='/houses'>
+                <HousesPage />
+            </Route>
+            <Route match='/houses_<id>'>
+                <HousesPage />
+            </Route>
+            <Route match='/houses-create'>
+                <HouseForm mode='create' />
             </Route>
         </Router>
     </Layout>

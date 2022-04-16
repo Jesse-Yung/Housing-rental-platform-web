@@ -68,6 +68,19 @@ export interface UserCreateInput {
     reviewMaterial?: ReviewMaterialCreateInput
 }
 
+
+export interface House {
+    id?: string
+    title?: string
+    type?: string
+    location?: string
+    area?: number
+    price?: number
+    level?: number
+    pictures?: string[]
+    createdAt?: string
+}
+
 export interface UserUpdateInput {
     username?: string | null
     phoneNumber?: string
@@ -114,6 +127,11 @@ export interface ReviewMaterialUpdateInput {
     certification?: string
     accountInformation?: string
     status?: Status | null
+}
+
+export interface Image {
+    id: string
+    url: string
 }
 
 export interface AdminSessionInput {

@@ -1,5 +1,5 @@
 import { getSessionToken } from '../hooks/useSession'
-import { AdminSessionInput, APIResponse, ReviewMaterial, ReviewMaterialUpdateInput, Session, User, UserCreateInput, UserSessionInput, UserUpdateInput } from './models'
+import { AdminSessionInput, APIResponse, House, Image, ReviewMaterial, ReviewMaterialUpdateInput, Session, User, UserCreateInput, UserSessionInput, UserUpdateInput } from './models'
 
 const host = "http://127.0.0.1:8000"
 
@@ -87,6 +87,27 @@ export async function deleteUser(id: string): Promise<void> {
     return await _delete(`/users/${id}`)
 }
 
+//房源
+export async function getHouses(qs?: string): Promise<House[]> {
+    return await _get<House[]>(`/houses?${qs ? qs : ''}`)
+}
+
+export async function getHouse(id: string, qs?: string): Promise<House> {
+    return await _get<House>(`/houses/${id}?${qs ? qs : ''}`)
+}
+
+export async function createHouse(input: House): Promise<House> {
+    return await _post<House>(`/houses`, input)
+}
+
+export async function updateHouse(id: string, input: House): Promise<House> {
+    return await _patch<House>(`/houses/${id}`, input)
+}
+
+export async function deleteHouse(id: string): Promise<void> {
+    return await _delete(`/houses/${id}`)
+}
+
 // 审核模块
 export async function getReviewMaterials(qs?: string): Promise<ReviewMaterial[]> {
     return await _get<ReviewMaterial[]>(`/review-materials?${qs ? qs : ''}`)
@@ -112,18 +133,12 @@ export async function updateReviewMaterial(id: string, input: ReviewMaterialUpda
 // 上传文件
 async function _formData<T>(method: 'POST' | 'PATCH',
                         path: string,
-                        data: any): Promise<APIResponse<T>> {
-    const formData = new FormData()
-    Object.keys(data).forEach((key) => {
-        if (data[key] instanceof FileList) {
-            if (data[key][0]) {
-                formData.append(key, data[key][0])
-            }
-        } else {
-            formData.append(key, data[key])
-        }
-    })
+                        data: FormData): Promise<APIResponse<T>> {
     return await _request(method, path, {
         'Accept': 'application/json'
-    }, formData)
+    }, data)
+}
+
+export async function upload(input: FormData): Promise<APIResponse<Image>> {
+    return await _formData<Image>('POST', '/pictures', input)
 }

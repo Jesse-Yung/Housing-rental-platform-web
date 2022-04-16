@@ -22,7 +22,7 @@ const AdminHeader: FC = () => {
                         </HeaderAnchor>
                     </HeaderLink>
                     <HeaderLink>
-                        <HeaderAnchor href="/admin_hourse">
+                        <HeaderAnchor href="/houses">
                             房源管理
                         </HeaderAnchor>
                     </HeaderLink>
