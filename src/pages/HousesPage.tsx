@@ -12,7 +12,7 @@ import Button, { OpButton } from '../components/Button'
 import { format } from 'date-fns'
 import useSession from '../hooks/useSession'
 import {  HouseLevel, ReviewMaterial, Sex, Status } from '../share/models'
-import { getReviewMaterials, getHouses } from '../share/api'
+import { getReviewMaterials, getHouses, deleteHouse } from '../share/api'
 import { useQuery } from '../hooks/useQueryMutation'
 import AdminHeader from '../components/AdminHeader'
 
@@ -21,7 +21,7 @@ import AdminHeader from '../components/AdminHeader'
 const HousesPage: FC = () => {
     const [_, setPath] = usePath()
     const [session] = useSession()
-    const { data } = useQuery(() => getHouses())
+    const { data, refresh } = useQuery(() => getHouses())
     console.log(data)
 
     return <Layout>
@@ -58,9 +58,11 @@ const HousesPage: FC = () => {
                                 <td>{row.level ? row.level === 1 ? "一级" : row.level === 2 ? "二级" : "三级" : "无"}</td>
                                 <td>
                                     <Row>
-                                        <OpButton color="green" action={() => setPath(`/users_${row.id}`)}>查看</OpButton>
-                                        <OpButton color="green" action={() => setPath(`/users-update_${row.id}`)}>修改</OpButton>
-                                        <OpButton color="green" action={() => setPath(`/reviews_${row.id}`)}>删除</OpButton>
+                                        <OpButton color="green" action={() => setPath(`/adminhouses_${row.id}`)}>查看</OpButton>
+                                        <OpButton color="green" action={() => setPath(`/houses-update_${row.id}`)}>修改</OpButton>
+                                        <OpButton color="green" action={() => {
+                                            deleteHouse(row.id!).then(() => refresh())
+                                        }}>删除</OpButton>
                                     </Row>
                                 </td>
                             </tr>

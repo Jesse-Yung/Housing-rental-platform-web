@@ -14,9 +14,10 @@ import HomePage from './pages/HomePage'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import HouseForm from './pages/HouseForm'
+import AdminHousePage from './pages/AdminHousePage'
 
 const App: FC = () => {
-    const [{ path }, setPath] = usePath()
+    const [{ path }] = usePath()
     const [session] = useSession()
     console.log(session)
     return <Layout>
@@ -60,11 +61,14 @@ const App: FC = () => {
             <Route match='/houses'>
                 <HousesPage />
             </Route>
-            <Route match='/houses_<id>'>
-                <HousesPage />
+            <Route match='/adminhouses_<id>'>
+                <AdminHousePage />
             </Route>
             <Route match='/houses-create'>
                 <HouseForm mode='create' />
+            </Route>
+            <Route match='/houses-update_<id>'>
+                <HouseForm mode='update' />
             </Route>
         </Router>
     </Layout>

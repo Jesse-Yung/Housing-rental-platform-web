@@ -15,7 +15,6 @@ import AdminHeader from '../components/AdminHeader'
 import Header from '../components/Header'
 import Container from '../components/Container'
 import Row from '../components/Row'
-import WSpace from '../components/WSpace'
 import Loading from '../components/Loading'
 import { useForm } from 'react-hook-form'
 import { Error, Label } from '../components/Form'
@@ -32,12 +31,18 @@ const HouseForm: FC<HouseFormProps> = ({ id, mode }) => {
 
     const [session] = useSession()
     const [_, setPath] = usePath()
-    const [images, setImages] = useState<any[]>([])
+    const [images, setImages] = useState<any[]>()
     const [loading, setLoading] = useState(false)
     const [canSend, setCanSend] = useState(false)
     const { register, handleSubmit, formState: { errors }, setValue, reset} = useForm()
     useQuery(() => api.getHouse(id!), {
-        onData: (d) => reset(d)
+        onData: (d) => {
+            setImages(d.pictures?.map((p) => {
+                return {"data_url": p, "exist": true}
+            }))
+            delete d.pictures
+            reset(d)
+        }
     })
     const { mutate: create } = useMutation((input: House) => api.createHouse(input))
     const { mutate: update } = useMutation((input: House) => api.updateHouse(id!, input))
@@ -48,7 +53,11 @@ const HouseForm: FC<HouseFormProps> = ({ id, mode }) => {
         data['price'] = Number(data['price'])
         setLoading(true)
         console.log(data)
-        images.map((i: any, index) => {
+        images?.map((i: any, index) => {
+            if (i['exist']) {
+                data['pictures'] = [...data['pictures'], i['data_url']]
+                return
+            }
             const image = new FormData()
             image.append('url', i['file'])
             console.log(index+1, images.length)
@@ -120,7 +129,7 @@ const HouseForm: FC<HouseFormProps> = ({ id, mode }) => {
                     </Table>
                     <ImageUploading
                         multiple
-                        value={images}
+                        value={images!}
                         onChange={(imageList, addUpdateIndex) => {
                             console.log(imageList, addUpdateIndex);
                             setImages(imageList)}}

@@ -12,7 +12,7 @@ import { OpButton } from '../components/Button'
 import { format } from 'date-fns'
 import useSession from '../hooks/useSession'
 import {  HouseLevel, ReviewMaterial, Sex, Status } from '../share/models'
-import { getReviewMaterials, getUsers } from '../share/api'
+import { deleteUser, getReviewMaterials, getUsers } from '../share/api'
 import { useQuery } from '../hooks/useQueryMutation'
 import AdminHeader from '../components/AdminHeader'
 
@@ -21,7 +21,7 @@ import AdminHeader from '../components/AdminHeader'
 const UsersPage: FC = () => {
     const [_, setPath] = usePath()
     const [session] = useSession()
-    const { data } = useQuery(() => getUsers())
+    const { data, refresh } = useQuery(() => getUsers())
     console.log(data)
 
     return <Layout>
@@ -57,7 +57,9 @@ const UsersPage: FC = () => {
                                     <Row>
                                         <OpButton color="green" action={() => setPath(`/users_${row.id}`)}>查看</OpButton>
                                         <OpButton color="green" action={() => setPath(`/users-update_${row.id}`)}>修改</OpButton>
-                                        <OpButton color="green" action={() => setPath(`/reviews_${row.id}`)}>删除</OpButton>
+                                        <OpButton color="green" action={() => {
+                                            deleteUser(row.id).then(() => refresh())
+                                        }}>删除</OpButton>
                                     </Row>
                                 </td>
                             </tr>
