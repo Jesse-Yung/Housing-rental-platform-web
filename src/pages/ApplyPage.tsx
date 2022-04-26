@@ -37,7 +37,7 @@ const ApplyPage: FC<ApplyPageProps> = ({ mode }) => {
             setCertification(u.reviewMaterial?.certification)
             setAccountInformation(u.reviewMaterial?.accountInformation)
     } })
-    const onSubmit = async (data: any) => {
+    const onSubmit = (data: any) => {
         const input = new FormData()
         input.append("name", data.name)
         input.append("idNumber", data.idNumber)
@@ -45,9 +45,9 @@ const ApplyPage: FC<ApplyPageProps> = ({ mode }) => {
         input.append("degree", data.degree[0])
         input.append("certification", data.certification[0])
         input.append("accountInformation", data.accountInformation[0])
-        await createReviewMaterial(data).then(() => {
+        createReviewMaterial(input).then(() => {
             alert("申请提交成功")
-            window.location.href = "my-apply"
+            setPath('/my-apply')
         }).catch(() => {
             alert("申请出错了")
         })
