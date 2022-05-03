@@ -79,6 +79,7 @@ export interface House {
     level?: number
     pictures?: string[]
     createdAt?: string
+    updatedAt?: string
 }
 
 export interface UserUpdateInput {

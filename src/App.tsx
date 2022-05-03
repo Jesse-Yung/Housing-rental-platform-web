@@ -15,6 +15,8 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import HouseForm from './pages/HouseForm'
 import AdminHousePage from './pages/AdminHousePage'
+import Houses from './pages/Houses'
+import House from './pages/House'
 
 const App: FC = () => {
     const [{ path }] = usePath()
@@ -60,6 +62,12 @@ const App: FC = () => {
             </Route>
             <Route match='/houses'>
                 <HousesPage />
+            </Route>
+            <Route match='/home-houses'>
+                <Houses />
+            </Route>
+            <Route match='/home-houses_<id>'>
+                <House />
             </Route>
             <Route match='/adminhouses_<id>'>
                 <AdminHousePage />

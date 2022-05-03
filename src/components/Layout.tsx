@@ -12,14 +12,8 @@ const Layout: FC = ({ children }) => {
             body {
                 margin: 0;
                 scroll-behavior: smooth;
-                ${light} {
-                    background-color: ${lightBackground};
-                    color: ${lightContent};
-                }
-                ${dark} {
-                    background-color: ${darkBackground};
-                    color: ${darkContent};
-                }
+                background-color: ${lightBackground};
+                color: ${lightContent};
                 font-family: ${contentFontStack};
             }
             a {
